@@ -10,49 +10,54 @@ import SecondaryDisplay from '../secondarydisplay/SecondaryDisplay';
 import './Pokedex.scss'
 
 const Pokedex = ()=> {
-  const { history } = useSelector((store: RootState) => store.history)
-  const dispatch = useDispatch();
+    const { history } = useSelector((store: RootState) => store.history)
+    const dispatch = useDispatch();
 
-   // Hooks
-   const [search, setSearch] = useState<string>('')
+    // Hooks
+    const [search, setSearch] = useState<string>('')
 
-   const [data, setData] = useState<Pokemon>()
-   const [details, setDetails] = useState<PokemonSpecies>();
+    const [data, setData] = useState<Pokemon>()
+    const [details, setDetails] = useState<PokemonSpecies>();
 
-   const [evolutionChain, setEvolutionChain] = useState<any>();
-   const [evolutionChainVisible, setEvolutionChainVisible] = useState<Array<any>>();
+    const [evolutionChain, setEvolutionChain] = useState<any>();
+    const [evolutionChainVisible, setEvolutionChainVisible] = useState<Array<any>>();
 
-   const [types, setTypes] = useState<Array<string>>();
-   const [moves, setMoves] = useState<Array<string>>();
-   const [abilities, setAbilities] = useState<Array<string>>();
+    const [types, setTypes] = useState<Array<string>>();
+    const [moves, setMoves] = useState<Array<string>>();
+    const [abilities, setAbilities] = useState<Array<string>>();
+    const [locationAreas, setLocationAreas] = useState<Array<string>>();
+    // const [isLoading, setIsLoading] = useState<boolean>()
 
-   // const [isLoading, setIsLoading] = useState<boolean>()
+    // Additional API Calls
+    const getAbilities = async (abilities: Array<any>) => {
+        const abilityInfo =  await Promise.all(abilities.map(async (ability) => {
+            const info = await (await fetch(ability.ability.url)).json();
+            const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en')    
+            return nameEn[0].name
+        }))
+        setAbilities(abilityInfo)
+    }
 
-   // Additional API Calls
-   const getAbilities = async (abilities: Array<any>) => {
-       const abilityInfo =  await Promise.all(abilities.map(async (ability) => {
-           const info = await (await fetch(ability.ability.url)).json();
-           const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en')    
-           return nameEn[0].name
-       }))
-       setAbilities(abilityInfo)
-   }
+    const getMoves = async (moves: Array<any>) => {
+        const moveInfo =  await Promise.all(moves.map(async (move) => {
+            const info = await (await fetch(move.move.url)).json();
+            const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en')    
+            return nameEn[0].name
+        }))
+        setMoves(moveInfo)
+    }
 
-   const getMoves = async (moves: Array<any>) => {
-       const moveInfo =  await Promise.all(moves.map(async (move) => {
-           const info = await (await fetch(move.move.url)).json();
-           const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en')    
-           return nameEn[0].name
-       }))
-       setMoves(moveInfo)
-   }
+    const getLocationInfo = async (locUrl: string) => {
+        const locationInfo = await (await fetch(locUrl)).json();
+        const listOfLocations = locationInfo.map((location: any) => {
+                return location.location_area.name.split('-').join(' ')
+        })
+        // console.log('locationInfo', locationInfo)
+        // console.log('listOfLocations', listOfLocations)
+        setLocationAreas(listOfLocations)
+    }
 
-   const getLocationInfo = async (locUrl: string) => {
-       const locationInfo = await (await fetch(locUrl)).json();
-       console.log('locationInfo', locationInfo)
-   }
-
-   const getEvolutionInfo = async (evolutionChain: any) => {
+    const getEvolutionInfo = async (evolutionChain: any) => {
     const evoInfo =  await Promise.all(evolutionChain.map(async (evolution: any) => {
         const info = await (await fetch(evolution.url)).json();
         const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en') 
@@ -81,14 +86,12 @@ const Pokedex = ()=> {
        if(details){
            getEvolutionChainByURL(details.evolution_chain.url)
                .then(r => setEvolutionChain(r))
-               .then(r=> console.log(r))
        }
    }, [details])
 
    useEffect(()=> {
        const pokemonChain: Array<any> = [];
        const addEvolutionToArray = (chain: any) => {
-           console.log('chain', chain)
            pokemonChain.push(chain.species)
            if(chain.evolves_to.length > 0){
                addEvolutionToArray(chain.evolves_to[0])
@@ -96,17 +99,11 @@ const Pokedex = ()=> {
        }
        if(evolutionChain){
            addEvolutionToArray(evolutionChain.chain)   
-           console.log(pokemonChain)
            getEvolutionInfo(pokemonChain)
        }
    }, [evolutionChain]);
        
-   console.log(data)
-   console.log(details)
-   console.log(evolutionChainVisible)
-
- 
-   // Event Handlers
+    // Event Handlers
     const handleSearch = async (param = search)=> {
         const searchResult = await searchByName(param)
         setData(searchResult)
@@ -114,8 +111,6 @@ const Pokedex = ()=> {
             dispatch(addHistoryEntry(param))
         }
     }
-
-    // [X] A way to look at past Pokémon that have been searched
 
     return (
         <div className="pokedex">
@@ -133,7 +128,7 @@ const Pokedex = ()=> {
                 </div>
             </div>
             <div className="right-page">
-                <SecondaryDisplay evolutionChain={evolutionChainVisible} handleSearch={handleSearch} />
+                <SecondaryDisplay name={data?.name} evolutionChain={evolutionChainVisible} locationAreas={locationAreas} handleSearch={handleSearch} />
                 <div className="data-entry">
                 
                     <input 

@@ -1,6 +1,9 @@
+body {
+  overscroll-behavior: none;
+}
+
 .App {
-  text-align: center;
-  box-sizing: border-box;
+  text-align: center;  
 }
 
 
