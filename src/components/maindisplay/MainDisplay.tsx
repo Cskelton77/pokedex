@@ -1,41 +1,42 @@
+import { Pokemon } from '../../interfaces/Pokemon';
+import { PokemonSpecies } from '../../interfaces/PokemonSpecies';
 import './MainDisplay.scss';
 
 interface MainDisplayInterface {
-    data: any;
-    details: any;
-    types: any;
-    moves: any;
-    abilities: any;
+    pkmnData?: Pokemon;
+    speciesData?: PokemonSpecies;
+    types?: Array<string>;
+    moves?: Array<string>;
+    abilities?: Array<string>;
 }
 
-const MainDisplay = ({data, details, types, moves, abilities}: MainDisplayInterface)=> {
+const MainDisplay = ({pkmnData, speciesData, types, moves, abilities}: MainDisplayInterface)=> {
     return (
         <div className="display">
             <TopDecorations />
             
             <div className="display-inner">
-                <span className="poke-name">{data?.name}</span>
-                <span className="poke-type">{details && 'Type: '}{data && types?.join(", ")}</span>
-                <img src={data?.sprites.front_default} alt={data?.name} />
+                <span className="poke-name">{pkmnData?.name}</span>
+                <span className="poke-type">{speciesData && 'Type: '}{pkmnData && types?.join(", ")}</span>
+                <img src={pkmnData?.sprites.front_default} alt={pkmnData?.name} />
 
                 <div className="panels">
                     <div className="left-panel">
-                        {details && 'Color:'} {details?.color.name}
+                        {speciesData && 'Color:'} {speciesData?.color.name}
                         <br />
-                        {details && 'Multiple genders:'} {details?.has_gender_differences.toString()}
+                        {speciesData && 'Multiple genders:'} {speciesData?.has_gender_differences.toString()}
                         <br />
-                        {details && `No. of varieties: ${details?.varieties.length}`}
+                        {speciesData && `No. of varieties: ${speciesData?.varieties.length}`}
                         <br />
-                        {data && 'Abilities: '}{abilities && abilities.join(", ")}
+                        {pkmnData && 'Abilities: '}{abilities && abilities.join(", ")}
                     </div>
 
                     <div className="right-panel">
-                        
                         { moves && (
                             <>
                                 Moves:
                                 <div className='move-box'>
-                                    { moves && moves.map((move: any)=> <li key={move}>{move}</li>) }
+                                    { moves && moves.map((move: string)=> <li key={move}>{move}</li>) }
                                 </div>
                             </>
                         )}

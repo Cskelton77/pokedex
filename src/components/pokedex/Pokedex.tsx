@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {getDetailsById, searchByName} from '../../api/api';
 import { addHistoryEntry } from '../../ducks/historyReducer';
+import { EvolutionChainEntry } from '../../interfaces/EvolutionChainEntry';
 import { Pokemon } from '../../interfaces/Pokemon';
+import { PokemonMove } from '../../interfaces/PokemonMove';
 import { PokemonSpecies } from '../../interfaces/PokemonSpecies';
 import { RootState } from '../../store';
 import DataEntry from '../dataentry/DataEntry';
@@ -18,10 +20,12 @@ const Pokedex = ()=> {
     // Hooks
     const [search, setSearch] = useState<string>('')
 
+    // Large datasets
     const [pokemonData, setPokemonData] = useState<Pokemon>()
     const [speciesData, setSpeciesData] = useState<PokemonSpecies>();
 
-    const [evolutionChain, setEvolutionChain] = useState<Array<any>>();
+    // Specific derived data
+    const [evolutionChain, setEvolutionChain] = useState<Array<EvolutionChainEntry>>();
     const [types, setTypes] = useState<Array<string>>();
     const [moves, setMoves] = useState<Array<string>>();
     const [abilities, setAbilities] = useState<Array<string>>();
@@ -37,7 +41,7 @@ const Pokedex = ()=> {
         setAbilities(abilityInfo)
     }
 
-    const getMoves = async (moves: Array<any>) => {
+    const getMoves = async (moves: Array<PokemonMove>) => {
         const moveInfo =  await Promise.all(moves.map(async (move) => {
             const info = await (await fetch(move.move.url)).json();
             const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en')    
@@ -61,7 +65,7 @@ const Pokedex = ()=> {
     }
 
     const getEvolutionInfo = async (evolutionChain: any) => {
-        const evoInfo =  await Promise.all(evolutionChain.map(async (evolution: any) => {
+        const evoInfo: Array<EvolutionChainEntry> =  await Promise.all(evolutionChain.map(async (evolution: any) => {
             const info = await (await fetch(evolution.url)).json();
             const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en') 
             const image = await searchByName(nameEn[0].name);  
@@ -76,6 +80,7 @@ const Pokedex = ()=> {
    // UseEffects
    useEffect(()=> {
        if(pokemonData){
+           console.log(pokemonData)
            getDetailsById(pokemonData.id)
                .then(response => setSpeciesData(response));
            setTypes(pokemonData.types.map((type) => type.type.name))
@@ -88,6 +93,7 @@ const Pokedex = ()=> {
    useEffect(()=> {
         const pokemonChain: Array<any> = [];
         const addEvolutionToArray = (chain: any) => {
+            console.log(chain)
             pokemonChain.push(chain.species)
             if(chain.evolves_to.length > 0){
                 addEvolutionToArray(chain.evolves_to[0])
@@ -114,7 +120,7 @@ const Pokedex = ()=> {
         <div className="pokedex">
             <div className="left-page">
                 <TopPanelDecorations />
-                <Display data={pokemonData} details={speciesData} types={types} moves={moves} abilities={abilities} />
+                <Display pkmnData={pokemonData} speciesData={speciesData} types={types} moves={moves} abilities={abilities} />
                 <BottomPanelDecorations />
             </div>
             <div className="right-page">

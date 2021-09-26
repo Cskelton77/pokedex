@@ -1,13 +1,15 @@
+import { EvolutionChainEntry } from '../../interfaces/EvolutionChainEntry';
 import './SecondaryDisplay.scss';
 
 interface SecondaryDisplayInterface {
-    name: string | undefined;
-    evolutionChain: any;
-    locationAreas: Array<string> | undefined;
+    name?: string;
+    evolutionChain?: Array<EvolutionChainEntry>;
+    locationAreas?: Array<string>;
     handleSearch: (pkmn: string) => void;
 }
 
 const SecondaryDisplay = ({name, evolutionChain, locationAreas, handleSearch}: SecondaryDisplayInterface)=> {
+    console.log(evolutionChain)
     return (
         <>
             <div className="secondary-display">

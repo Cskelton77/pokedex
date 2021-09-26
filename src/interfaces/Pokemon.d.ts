@@ -8,13 +8,15 @@ export interface Pokemon {
     id: number;
     is_default: boolean;
     location_area_encounters: string;
-    moves: Array<any>;
+    moves: Array<PokemonMove>;
     name: string;
     order: number;
     past_types: Array<any>;
     species: Record<key, string>;
     sprites: Record<key, string>;
     stats: Array<any>;
-    types: Array<any>;
+    types: Array<PokemonType>;
 }
+
+
 
