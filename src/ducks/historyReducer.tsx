@@ -15,7 +15,6 @@ export default function historyReducer(state: HistoryState = initialHistoryState
         case ADD_HISTORY_ENTRY: {
             return {
                 history: [
-                    
                     ...state.history, 
                     action.payload,
                 ],

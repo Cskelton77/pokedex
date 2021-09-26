@@ -1,0 +1,54 @@
+.secondary-display {
+    height: 200px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    text-align: left;
+    border: 4px solid black;
+
+    padding: 5px 15px 5px 15px;
+    // margin: 0 25px;
+    background: #D6D6D6;
+    color: #000;
+    border-radius: 15px;
+
+    font-family: 'VT323', monospace;
+
+    .title {
+        text-align: center;
+    }
+    .evolution-chain {
+        text-align: center;
+        display: flex;
+        font-size: 18px;
+        .pkmn {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            cursor: pointer;
+            border: 2px solid #D6D6D6;
+            border-radius: 10px;
+            &:hover {
+                border: 2px solid black;
+            }
+            img {
+                height: 100px;
+                object-fit: contain;
+            }       
+        }
+    }
+}
+
+.screen-decoration {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    .bar {
+        background-color: #484646;
+        width: 75px;
+        height: 5px;
+        border: 2px solid black;
+        display: inline-block;
+        margin-right: 15px;
+    }
+}
