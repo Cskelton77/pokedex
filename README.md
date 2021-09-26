@@ -1,3 +1,5 @@
+View at: https://cskelton77.github.io/pokedex
+
 Upgrades
 
 1. Use this: https://github.com/monbrey/pokeapi-typescript
