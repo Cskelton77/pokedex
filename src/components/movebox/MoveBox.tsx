@@ -5,7 +5,7 @@ const MoveBox = ({moves}: { moves: any}) => {
         <>
             { moves && ('Moves:' 
             )}
-            <div className='moveBox'>
+            <div className='move-box'>
                 { moves && moves.map((move: any)=> <li key={move}>{move}</li>) }
             </div>
         </>
