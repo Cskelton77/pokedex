@@ -80,7 +80,6 @@ const Pokedex = ()=> {
    // UseEffects
    useEffect(()=> {
        if(pokemonData){
-           console.log(pokemonData)
            getDetailsById(pokemonData.id)
                .then(response => setSpeciesData(response));
            setTypes(pokemonData.types.map((type) => type.type.name))
@@ -93,7 +92,6 @@ const Pokedex = ()=> {
    useEffect(()=> {
         const pokemonChain: Array<any> = [];
         const addEvolutionToArray = (chain: any) => {
-            console.log(chain)
             pokemonChain.push(chain.species)
             if(chain.evolves_to.length > 0){
                 addEvolutionToArray(chain.evolves_to[0])
