@@ -15,11 +15,12 @@ const Pokedex = ()=> {
   const [data, setData] = useState<Pokemon>()
   const dispatch = useDispatch();
 
-  const handleSearch = async ()=> {
-        const searchResult = await searchByName(search)
+  const handleSearch = async (param = search)=> {
+        const searchResult = await searchByName(param)
         setData(searchResult)
-        dispatch(addHistoryEntry(search))
+        dispatch(addHistoryEntry(param))
   }
+
   return (
     <div className="pokedex">
         <div className="leftPage">
@@ -45,13 +46,13 @@ const Pokedex = ()=> {
                     onKeyDown={e => e.key==="Enter" && handleSearch()}
                     className='pokedexInput'
                 />
-                <button onClick={handleSearch} />
+                <button onClick={() => handleSearch()} />
 
                
             </div>
             <div className="historyBox">
                 {'History'}<br />
-                {history.map((entry) => <li key={entry}>{entry}</li>)}
+                {history.map((entry) => <button onClick={()=> handleSearch(entry)} key={entry}>{entry}</button>)}
             </div>
         </div>
     </div>

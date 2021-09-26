@@ -94,8 +94,8 @@ const Display = ({data}: {data: Pokemon | undefined})=> {
     // [ ] Locations        pokemon/{id}/encounters
     // [X] Varieties        pokemon-species
 
-    //  A way to click on a Pokémon evolution type and see information about that evolution type 
-    // A way to look at past Pokémon that have been searched
+    // [ ] A way to click on a Pokémon evolution type and see information about that evolution type 
+    // [X] A way to look at past Pokémon that have been searched
 
     return (
         <div className="display">
