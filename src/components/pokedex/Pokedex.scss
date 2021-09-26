@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 .pokedex {
     display: flex;
     border: 4px solid black;
-    padding: 0 25px;
+    border-radius: 55px 10px 10px 10px;
+    padding: 0 15px;
     background-color: red;
-   width: 800px;
+    width: 800px;
     height: 600px;
 
     .leftPage {
@@ -68,18 +71,40 @@
         flex: 1;
         .dataEntry {
             display: flex;
-           
+            padding: 15px;
+            justify-content: center;
+
+            .pokedexInput {
+                font-family: 'VT323', monospace;
+                height: 48px;
+                font-size: 36px;
+                border-radius: 25px;
+                padding-left: 15px;
+                margin-right: 5px;
+                &:focus-visible {
+                    outline: none;
+                }
+            }
+            button {
+                background-color: #FFC252;
+                height: 54px;
+                width: 54px;
+                border-radius: 48px;
+                border: 4px solid black;
+            }
+            
+        }
+
+        .historyBox {
+            display: flex;
             padding: 15px;
             flex-direction: column;
             justify-content: center;
-
-            .historyBox {
-                text-align: left;
-                font-size: 16px;
-                li {
-                    list-style: none;
-                    padding: 5px 5px 5px 1  5px;
-                }
+            text-align: left;
+            font-size: 16px;
+            li {
+                list-style: none;
+                padding: 5px 5px 5px 1  5px;
             }
         }
     }

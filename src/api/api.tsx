@@ -5,20 +5,20 @@ const URL = 'https://pokeapi.co/api/v2'
 
 const searchByName = async (name: string): Promise<Pokemon> => {
     const data = await fetch(`${URL}/pokemon/${name.toLowerCase()}`)
-        .then(response => response.json())    
-    return data;
+    const dataJson = await data.json();  
+    return dataJson;
 }
 
 const getDetailsById = async (id: number): Promise<PokemonSpecies> => {
     const data = await fetch(`${URL}/pokemon-species/${id}`)
-        .then(response => response.json()) 
-    return data;
+    const dataJson = await data.json();  
+    return dataJson;
 }
 
-const getEvolutionChainById = async (id: number): Promise<PokemonSpecies> => {
-    const data = await fetch(`${URL}/evolution-chain/${id}`)
-        .then(response => response.json()) 
-    return data;
+const getEvolutionChainByURL = async (url: string): Promise<any> => {
+    const data = await fetch(url)
+    const dataJson = await data.json();  
+    return dataJson;
 }
 
-export {getDetailsById, getEvolutionChainById, searchByName}
+export {getDetailsById, getEvolutionChainByURL, searchByName}

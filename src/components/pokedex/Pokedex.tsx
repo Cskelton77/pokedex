@@ -38,17 +38,20 @@ const Pokedex = ()=> {
         <div className="rightPage">
             <div className="rightPanelDecoration" />
             <div className="dataEntry">
-                Pokedex
+               
                 <input 
-                type='text' 
-                onChange={(e) => setSearch(e.target.value)} 
+                    type='text' 
+                    onChange={(e) => setSearch(e.target.value)} 
+                    onKeyDown={e => e.key==="Enter" && handleSearch()}
+                    className='pokedexInput'
                 />
-                <button onClick={handleSearch}>Search</button>
+                <button onClick={handleSearch} />
 
-                <div className="historyBox">
-                    {'History'}<br />
-                    {history.map((entry) => <li key={entry}>{entry}</li>)}
-                </div>
+               
+            </div>
+            <div className="historyBox">
+                {'History'}<br />
+                {history.map((entry) => <li key={entry}>{entry}</li>)}
             </div>
         </div>
     </div>
