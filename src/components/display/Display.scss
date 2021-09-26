@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+.display {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    text-align: left;
+    border: 4px solid black;
+
+    padding: 25px 15px 5px 15px;
+    margin: 0 25px;
+    background: #D6D6D6;
+    color: #000;
+    border-bottom-left-radius: 25px;
+
+    font-family: 'VT323', monospace;
+
+    .displayInner {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        text-align: left;
+        border: 4px solid black;
+        padding: 15px;
+        background: #D6D6D6;
+        color: #000;
+        border-radius: 25px;
+
+        .pokeName {
+            font-size: 48px;
+            text-transform: capitalize;
+        }
+        .pokeType {
+            font-size: 16px;
+        }
+    
+        img {
+            max-height:125px;
+            object-fit: contain;
+        }
+    
+        .panels {
+            display: flex;
+            flex-direction: row;
+            font-size: 16px;
+            .leftPanel {
+                flex: 1;
+               
+            }
+            .rightPanel {
+                flex: 1;
+            }
+        }
+
+       
+
+    }
+    
+    .bottomDecorations {
+        display: flex;
+        justify-content:space-between;
+        padding: 0 15px;
+        .smallButton {
+            height: 25px;
+            width: 25px;
+            border-radius: 35px;
+            border: 4px solid black;
+            margin-top: 5px;
+        }
+        .redLight {
+            background-color: red;
+        }
+        .voiceBars {
+            height: 20px;
+            width: 35px;
+            .line {
+                display: flex;
+                height: 4px;
+                width: 100%;
+                background-color: black;
+                margin: 5px 0;
+            }
+        }
+    }
+    
+}
