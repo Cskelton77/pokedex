@@ -9,6 +9,8 @@ const DataEntry = ({setSearch, handleSearch}: DataEntryInterface)=> {
     return (
         <div className="data-entry">
             <input 
+                placeholder={'Search for Pokemon'}
+                autoFocus
                 type='text' 
                 onChange={(e) => setSearch(e.target.value)} 
                 onKeyDown={e => e.key==="Enter" && handleSearch()}

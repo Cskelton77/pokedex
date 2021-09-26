@@ -9,7 +9,6 @@ interface SecondaryDisplayInterface {
 }
 
 const SecondaryDisplay = ({name, evolutionChain, locationAreas, handleSearch}: SecondaryDisplayInterface)=> {
-    console.log(evolutionChain)
     return (
         <>
             <div className="secondary-display">

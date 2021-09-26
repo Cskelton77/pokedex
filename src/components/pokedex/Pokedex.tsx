@@ -109,10 +109,12 @@ const Pokedex = ()=> {
        
     // Event Handlers
     const handleSearch = async (param = search)=> {
-        const searchResult = await searchByName(param)
-        setPokemonData(searchResult)
-        if(!history.includes(param)){
-            dispatch(addHistoryEntry(param))
+        if(param){
+            const searchResult = await searchByName(param)
+            setPokemonData(searchResult)
+            if(!history.includes(param)){
+                dispatch(addHistoryEntry(param))
+            }
         }
     }
 
