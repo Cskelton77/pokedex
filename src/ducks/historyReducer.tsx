@@ -16,7 +16,7 @@ export default function historyReducer(state: HistoryState = initialHistoryState
             return {
                 history: [
                     ...state.history, 
-                    action.payload,
+                    action.payload.toLowerCase(),
                 ].reverse(),
             }
         }
