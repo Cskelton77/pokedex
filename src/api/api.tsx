@@ -15,10 +15,6 @@ const getDetailsById = async (id: number): Promise<PokemonSpecies> => {
     return dataJson;
 }
 
-const getEvolutionChainByURL = async (url: string): Promise<any> => {
-    const data = await fetch(url)
-    const dataJson = await data.json();  
-    return dataJson;
-}
 
-export {getDetailsById, getEvolutionChainByURL, searchByName}
+
+export {getDetailsById, searchByName}

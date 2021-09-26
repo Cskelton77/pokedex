@@ -8,12 +8,6 @@ interface SecondaryDisplayInterface {
 }
 
 const SecondaryDisplay = ({name, evolutionChain, locationAreas, handleSearch}: SecondaryDisplayInterface)=> {
-
-    // Thing                API Endpoint
-    // [X] Evolutions      evolution-chain
-    // [X] Locations        pokemon/{id}/encounters
-    // [X] A way to click on a Pokémon evolution type and see information about that evolution type 
-
     return (
         <>
             <div className="secondary-display">
@@ -23,6 +17,7 @@ const SecondaryDisplay = ({name, evolutionChain, locationAreas, handleSearch}: S
                         <div className="evolution-chain">
                             {evolutionChain.map((evolution: any) => (
                                 <span 
+                                    key={evolution.name}
                                     className="pkmn" 
                                     tabIndex={0} 
                                     onClick={() => handleSearch(evolution.name)}
@@ -39,9 +34,7 @@ const SecondaryDisplay = ({name, evolutionChain, locationAreas, handleSearch}: S
                     {locationAreas && <span className="location-title">
                         <span className="pokemon-name">{name}</span> can be found in the following areas: </span>}
                     <span className="location-list">
-                        {locationAreas?.map((location) => {
-                            return <li key={location}>{location}</li>
-                        })}
+                        {locationAreas?.map((location) => (<li key={location}>{location}</li>))}
                     </span>
                 </div>
             </div>

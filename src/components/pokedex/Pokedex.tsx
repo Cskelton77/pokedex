@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {getDetailsById, getEvolutionChainByURL, searchByName} from '../../api/api';
+import {getDetailsById, searchByName} from '../../api/api';
 import { addHistoryEntry } from '../../ducks/historyReducer';
 import { Pokemon } from '../../interfaces/Pokemon';
 import { PokemonSpecies } from '../../interfaces/PokemonSpecies';
 import { RootState } from '../../store';
+import DataEntry from '../dataentry/DataEntry';
+import HistoryDisplay from '../historydisplay/HistoryDisplay';
 import Display from '../maindisplay/MainDisplay';
 import SecondaryDisplay from '../secondarydisplay/SecondaryDisplay';
 import './Pokedex.scss'
@@ -16,17 +18,14 @@ const Pokedex = ()=> {
     // Hooks
     const [search, setSearch] = useState<string>('')
 
-    const [data, setData] = useState<Pokemon>()
-    const [details, setDetails] = useState<PokemonSpecies>();
+    const [pokemonData, setPokemonData] = useState<Pokemon>()
+    const [speciesData, setSpeciesData] = useState<PokemonSpecies>();
 
-    const [evolutionChain, setEvolutionChain] = useState<any>();
-    const [evolutionChainVisible, setEvolutionChainVisible] = useState<Array<any>>();
-
+    const [evolutionChain, setEvolutionChain] = useState<Array<any>>();
     const [types, setTypes] = useState<Array<string>>();
     const [moves, setMoves] = useState<Array<string>>();
     const [abilities, setAbilities] = useState<Array<string>>();
     const [locationAreas, setLocationAreas] = useState<Array<string>>();
-    // const [isLoading, setIsLoading] = useState<boolean>()
 
     // Additional API Calls
     const getAbilities = async (abilities: Array<any>) => {
@@ -52,61 +51,60 @@ const Pokedex = ()=> {
         const listOfLocations = locationInfo.map((location: any) => {
                 return location.location_area.name.split('-').join(' ')
         })
-        // console.log('locationInfo', locationInfo)
-        // console.log('listOfLocations', listOfLocations)
         setLocationAreas(listOfLocations)
     }
 
+    const getEvolutionChainByURL = async (url: string): Promise<any> => {
+        const data = await fetch(url)
+        const dataJson = await data.json();  
+        return dataJson;
+    }
+
     const getEvolutionInfo = async (evolutionChain: any) => {
-    const evoInfo =  await Promise.all(evolutionChain.map(async (evolution: any) => {
-        const info = await (await fetch(evolution.url)).json();
-        const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en') 
-        const image = await searchByName(nameEn[0].name);  
-        return {
-            name: nameEn[0].name,
-            image: image.sprites.front_default
-        }
-    }))
-    setEvolutionChainVisible(evoInfo)
+        const evoInfo =  await Promise.all(evolutionChain.map(async (evolution: any) => {
+            const info = await (await fetch(evolution.url)).json();
+            const nameEn = info.names.filter((name: Record<any, any>) => name.language.name==='en') 
+            const image = await searchByName(nameEn[0].name);  
+            return {
+                name: nameEn[0].name,
+                image: image.sprites.front_default
+            }
+        }))
+        setEvolutionChain(evoInfo)
    }
 
    // UseEffects
    useEffect(()=> {
-       if(data){
-           getDetailsById(data.id)
-               .then(response => setDetails(response));
-           setTypes(data.types.map((type) => type.type.name))
-           getMoves(data.moves);
-           getAbilities(data.abilities);
-           getLocationInfo(data.location_area_encounters)
+       if(pokemonData){
+           getDetailsById(pokemonData.id)
+               .then(response => setSpeciesData(response));
+           setTypes(pokemonData.types.map((type) => type.type.name))
+           getMoves(pokemonData.moves);
+           getAbilities(pokemonData.abilities);
+           getLocationInfo(pokemonData.location_area_encounters)
        }
-   }, [data])
+   }, [pokemonData])
 
    useEffect(()=> {
-       if(details){
-           getEvolutionChainByURL(details.evolution_chain.url)
-               .then(r => setEvolutionChain(r))
-       }
-   }, [details])
+        const pokemonChain: Array<any> = [];
+        const addEvolutionToArray = (chain: any) => {
+            pokemonChain.push(chain.species)
+            if(chain.evolves_to.length > 0){
+                addEvolutionToArray(chain.evolves_to[0])
+            }
+        }
 
-   useEffect(()=> {
-       const pokemonChain: Array<any> = [];
-       const addEvolutionToArray = (chain: any) => {
-           pokemonChain.push(chain.species)
-           if(chain.evolves_to.length > 0){
-               addEvolutionToArray(chain.evolves_to[0])
-           }
+       if(speciesData){
+            getEvolutionChainByURL(speciesData.evolution_chain.url)
+               .then(evolutionChain => addEvolutionToArray(evolutionChain.chain) )
+               .then(() => getEvolutionInfo(pokemonChain))
        }
-       if(evolutionChain){
-           addEvolutionToArray(evolutionChain.chain)   
-           getEvolutionInfo(pokemonChain)
-       }
-   }, [evolutionChain]);
+   }, [speciesData])
        
     // Event Handlers
     const handleSearch = async (param = search)=> {
         const searchResult = await searchByName(param)
-        setData(searchResult)
+        setPokemonData(searchResult)
         if(!history.includes(param)){
             dispatch(addHistoryEntry(param))
         }
@@ -115,43 +113,33 @@ const Pokedex = ()=> {
     return (
         <div className="pokedex">
             <div className="left-page">
-                <div className="left-panel--top-decoration">
-                    <div className="blue-light" />
-                    <div className="red-light small-button" />
-                    <div className="yellow-light small-button" />
-                    <div className="green-light small-button" />
-                </div>
-                <Display data={data} details={details} types={types} moves={moves} abilities={abilities} />
-                <div className="left-panel--bottom-decoration">
-                    <div className="bar red-bar" />
-                    <div className="bar blue-bar" />
-                </div>
+                <TopPanelDecorations />
+                <Display data={pokemonData} details={speciesData} types={types} moves={moves} abilities={abilities} />
+                <BottomPanelDecorations />
             </div>
             <div className="right-page">
-                <SecondaryDisplay name={data?.name} evolutionChain={evolutionChainVisible} locationAreas={locationAreas} handleSearch={handleSearch} />
-                <div className="data-entry">
-                
-                    <input 
-                        type='text' 
-                        onChange={(e) => setSearch(e.target.value)} 
-                        onKeyDown={e => e.key==="Enter" && handleSearch()}
-                        className='pokedex-input'
-                    />
-                    <button onClick={() => handleSearch()} />
-
-                </div>
-                <span className="history-title">
-                {'Recent Successful Identifications'}
-                </span>
-                <div className="history-box">
-                    {history && history.length > 0 && (
-                        history.map((entry) => <button onClick={()=> handleSearch(entry)} key={entry}>{entry}</button>)
-                    )}
-                    {history && history.length === 0 && <span className='no-history'>No recent identifications</span>}
-                </div>
+                <SecondaryDisplay name={pokemonData?.name} evolutionChain={evolutionChain} locationAreas={locationAreas} handleSearch={handleSearch} />
+                <DataEntry setSearch={setSearch} handleSearch={handleSearch} />
+                <HistoryDisplay history={history} handleSearch={handleSearch} />
             </div>
         </div>
     );
 }
 
 export default Pokedex;
+
+const TopPanelDecorations = () => (
+    <div className="left-panel--top-decoration">
+        <div className="blue-light" />
+        <div className="red-light small-button" />
+        <div className="yellow-light small-button" />
+        <div className="green-light small-button" />
+    </div>
+)
+
+const BottomPanelDecorations = () => (
+    <div className="left-panel--bottom-decoration">
+        <div className="bar red-bar" />
+        <div className="bar blue-bar" />
+    </div>
+)

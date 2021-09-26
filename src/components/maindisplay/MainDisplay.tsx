@@ -1,4 +1,3 @@
-import MoveBox from '../movebox/MoveBox';
 import './MainDisplay.scss';
 
 interface MainDisplayInterface {
@@ -12,10 +11,7 @@ interface MainDisplayInterface {
 const MainDisplay = ({data, details, types, moves, abilities}: MainDisplayInterface)=> {
     return (
         <div className="display">
-             <div className="top-decorations">
-                <div className="red-light small-button" />
-                <div className="red-light small-button" />
-            </div>
+            <TopDecorations />
             
             <div className="display-inner">
                 <span className="poke-name">{data?.name}</span>
@@ -34,22 +30,40 @@ const MainDisplay = ({data, details, types, moves, abilities}: MainDisplayInterf
                     </div>
 
                     <div className="right-panel">
-                        {data && <MoveBox moves={moves} />}
+                        
+                        { moves && (
+                            <>
+                                Moves:
+                                <div className='move-box'>
+                                    { moves && moves.map((move: any)=> <li key={move}>{move}</li>) }
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
+            <BottomDecorations />
             
-            <div className="bottom-decorations">
-                <div className="redlight small-button" />
-                <div className="voicebars">
-                    <span className="line" />
-                    <span className="line" />
-                    <span className="line" />
-                    <span className="line" />
-                </div>
-            </div>
         </div>
     );
 }
 
 export default MainDisplay;
+
+const TopDecorations = () => (
+    <div className="top-decorations">
+        <div className="red-light small-button" />
+        <div className="red-light small-button" />
+    </div>
+)
+const BottomDecorations = () => (
+    <div className="bottom-decorations">
+        <div className="redlight small-button" />
+        <div className="voicebars">
+            <span className="line" />
+            <span className="line" />
+            <span className="line" />
+            <span className="line" />
+        </div>
+    </div>
+)
