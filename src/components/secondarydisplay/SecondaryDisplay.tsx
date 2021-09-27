@@ -38,7 +38,8 @@ const SecondaryDisplay = ({name, evolutionChain, locationAreas, handleSearch}: S
                             {locationAreas && <span className="location-title">
                                 <span className="pokemon-name">{name}</span> can be found in the following areas: </span>}
                             <span className="location-list">
-                                {locationAreas?.map((location) => (<li key={location}>{location}</li>))}
+                                {locationAreas && locationAreas.length > 0 && locationAreas.map((location) => (<li key={location}>{location}</li>))}
+                                {locationAreas && locationAreas.length === 0 && "Unable to locate this pokemon on the map" }
                             </span>
                         </div>
                     </div>

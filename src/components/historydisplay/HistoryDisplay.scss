@@ -18,7 +18,7 @@
     height: 150px;
     overflow: scroll;
     @media(max-width: 768px){
-        height: 600px;
+        max-height: 600px;
     }
     .no-history {
         font-family: 'VT323', monospace;
