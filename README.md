@@ -20,13 +20,7 @@ Upgrades
     Failed searches 404 and the app does nothing, maybe it
     should display a message that no result was found.
 
-4. Add mobile friendly CSS
-    Priority was on mimicking the "actual" device so this has
-    led to a very non-responsive design that only works on
-    a horizontal phone. I'm sure I could think of a way to
-    represent this on a one-screen device but I have not.
-
-5. Evolution feature does not handle non-linear evolutions.
+4. Evolution feature does not handle non-linear evolutions.
     Eevee can evolve into multiple Pokemon, presumably some
     other pokemon also do this, and the evolution chain reader
     does not handle this well, as it is expecting an a->b->c or
@@ -34,4 +28,4 @@ Upgrades
     redesigning the screen, as the layout of the app would not
     easily display this either. 
 
-6. The CSS needs a little cleannup.
+5. The CSS needs a little cleannup.

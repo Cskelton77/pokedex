@@ -115,9 +115,6 @@ const Pokedex = ()=> {
         }
     }
 
-    
-    
-
     return (
         <div className="pokedex">
             <div className="left-page">
