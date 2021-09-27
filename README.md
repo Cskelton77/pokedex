@@ -1,6 +1,6 @@
 View at: https://cskelton77.github.io/pokedex
 
-Upgrades
+Upgrades/Enhancements/
 
 1. Use this: https://github.com/monbrey/pokeapi-typescript
     This seems like a much better fully typed API wrapper.
