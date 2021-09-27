@@ -5,50 +5,78 @@
     flex-direction: column;
     text-align: left;
     border: 4px solid black;
-    padding: 5px 15px 5px 15px;
+    padding: 15px;
     background: #D6D6D6;
     color: #000;
     border-radius: 15px;
     font-family: 'VT323', monospace;
-
-    .title {
-        text-align: center;
+    @media(max-width: 768px){
+        height: auto;
+        max-height: 350px
     }
-    .evolution-chain {
-        text-align: center;
-        display: flex;
-        font-size: 18px;
-        .pkmn {
+    .secondary-display--inner {
+        border: 4px solid black;
+        background: #D6D6C0;
+        border-radius: 5px;
+        height: 100%;
+        padding: 0 15px;
+        overflow: hidden;
+
+        .title {
+            text-align: center;
+        }
+        .evolution-chain {
+            text-align: center;
             display: flex;
-            flex: 1;
-            flex-direction: column;
-            cursor: pointer;
-            border: 2px solid #D6D6D6;
-            border-radius: 10px;
-            &:hover {
-                border: 2px solid black;
+            font-size: 18px;
+            
+            @media(max-width: 768px){
+                padding-bottom: 10px;
+                font-size: 24px;
             }
-            img {
-                height: 100px;
-                object-fit: contain;
-            }       
+            .pkmn {
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+                cursor: pointer;
+                border: 2px solid #D6D6D6;
+                border-radius: 10px;
+                &:hover {
+                    border: 2px solid black;
+                }
+                img {
+                    height: 100px;
+                    object-fit: contain;
+                    @media(max-width: 768px){
+                        height: 75px;
+                    }
+                }       
+            }
         }
     }
 }
 
 .locations {
     font-size: 18px;
+    @media(max-width: 768px){
+       
+        font-size: 24px;
+    }
     .pokemon-name {
         text-transform: capitalize;
     }
     .location-list {
         display: flex;
-        height: 75px;
+        max-height: 75px;
         overflow: scroll;
         flex-direction: column;
         text-transform: capitalize;
         list-style-type: none;
         padding-left: 15px;
+        @media(max-width: 768px){
+            height: auto;
+            max-height: 175px
+        }
     }
 }
 .screen-decoration {

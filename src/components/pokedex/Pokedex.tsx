@@ -16,7 +16,8 @@ import './Pokedex.scss'
 const Pokedex = ()=> {
     const { history } = useSelector((store: RootState) => store.history)
     const dispatch = useDispatch();
-
+    const width = window.innerWidth;
+    
     // Hooks
     const [search, setSearch] = useState<string>('')
 
@@ -116,16 +117,20 @@ const Pokedex = ()=> {
         }
     }
 
+    
+    
+
     return (
         <div className="pokedex">
             <div className="left-page">
                 <TopPanelDecorations />
+                { width <= 768 && <DataEntry setSearch={setSearch} handleSearch={handleSearch} /> }
                 <Display pkmnData={pokemonData} speciesData={speciesData} types={types} moves={moves} abilities={abilities} />
-                <BottomPanelDecorations />
+                { width > 768 && <BottomPanelDecorations /> }
             </div>
             <div className="right-page">
                 <SecondaryDisplay name={pokemonData?.name} evolutionChain={evolutionChain} locationAreas={locationAreas} handleSearch={handleSearch} />
-                <DataEntry setSearch={setSearch} handleSearch={handleSearch} />
+                { width > 768 && <DataEntry setSearch={setSearch} handleSearch={handleSearch} /> }
                 <HistoryDisplay history={history} handleSearch={handleSearch} />
             </div>
         </div>

@@ -30,6 +30,11 @@ body {
   justify-content: center;
   font-size: calc(18px + 2vmin);
   color: white;
+  }
+@media(max-width: 768px){
+    .App-header {
+      justify-content: flex-start;
+    }
 }
 
 .App-link {

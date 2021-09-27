@@ -1,6 +1,9 @@
 .data-entry {
     display: flex;
     padding: 10px 15px;
+    @media(max-width: 768px){
+        padding-top: 0;
+    }
     .pokedex-input {
         font-family: 'VT323', monospace;
         height: 48px;
@@ -8,6 +11,10 @@
         border-radius: 25px;
         padding-left: 15px;
         margin-right: 5px;
+        @media(max-width: 768px){
+            width: 80%;
+            font-size: 30px;
+        }
         &:focus-visible {
             outline: none;
         }
