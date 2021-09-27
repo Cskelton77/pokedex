@@ -13,11 +13,10 @@ const initialHistoryState: HistoryState = {
 export default function historyReducer(state: HistoryState = initialHistoryState, action: AnyAction) {
     switch (action.type) {
         case ADD_HISTORY_ENTRY: {
+            const newHistory = state.history;
+            newHistory.unshift(action.payload)
             return {
-                history: [
-                    ...state.history, 
-                    action.payload,
-                ].reverse(),
+                history: [ ...newHistory ],
             }
         }
     default:

@@ -4,6 +4,10 @@
     font-family: 'VT323', monospace;
     font-size: 28px;
     color: #000;
+    
+    @media(max-width: 768px){
+        font-size: 26px;
+    }
 }
 .history-box {
     display: flex;
@@ -13,9 +17,15 @@
     font-size: 16px;
     height: 150px;
     overflow: scroll;
+    @media(max-width: 768px){
+        height: 600px;
+    }
     .no-history {
         font-family: 'VT323', monospace;
         text-align: center;
+        @media(max-width: 768px){
+            font-size: 24px;
+        }
     }
     button {
         text-transform: capitalize;
