@@ -14,7 +14,10 @@ export default function historyReducer(state: HistoryState = initialHistoryState
     switch (action.type) {
         case ADD_HISTORY_ENTRY: {
             const newHistory = state.history;
-            newHistory.unshift(action.payload)
+            const newEntry = action.payload.toLowerCase();
+            if(!newHistory.includes(newEntry)){
+                newHistory.unshift(newEntry)
+            }
             return {
                 history: [ ...newHistory ],
             }

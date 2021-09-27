@@ -111,9 +111,9 @@ const Pokedex = ()=> {
         if(param){
             const searchResult = await searchByName(param)
             setPokemonData(searchResult)
-            if(!history.includes(param.toLowerCase())){
-                dispatch(addHistoryEntry(param))
-            }
+            console.log(history)
+            dispatch(addHistoryEntry(param))
+            
         }
     }
 
