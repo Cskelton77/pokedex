@@ -28,4 +28,10 @@ Upgrades/Enhancements/
     redesigning the screen, as the layout of the app would not
     easily display this either. 
 
-5. The CSS needs a little cleannup.
+5. The CSS needs a little cleanup, as does the responsive design. 
+    The page does not re-render or re-calculate the width when the
+    user resizes the browser, so while the page will display in a 
+    friendly manner for whatever size the user is browsing on initially,
+    if they resize from a large window to a very small one it will
+    not re-render the components correctly at this time. This seems
+    like a narrow use case.
